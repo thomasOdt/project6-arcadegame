@@ -1,14 +1,14 @@
 // Enemies our player must avoid
-let Enemy = function(startX, startY) {
+let Enemy = function(startX, startY, speed) {
     this.sprite = 'images/enemy-bug.png';
     this.x = startX;
     this.y = startY;
+    this.speed = speed;
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    this.speed = 250;
     this.x += this.speed*dt;
     // if enemy gets to the end of the canvas reset its position.
     if(this.x > 600) {
@@ -22,7 +22,8 @@ Enemy.prototype.render = function() {
 };
 
 Enemy.prototype.reset = function() {
-    this.x = -100;
+    // get a new starting x so there isn't a pattern between enemies.
+    this.x = xValues[Math.floor(Math.random() * xValues.length)];
 };
 
 //Player class.
@@ -55,15 +56,26 @@ Player.prototype.handleInput = function(key){
 };
 
 // Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 let allEnemies = [];
-const xValues = [-50,-110,-160,-200,-500,-350, -250,-410];
+// some default start positions
+const xValues = [-100,-225,-350,-450,-575,-675];
 const yValues = [60, 140, 220];
 for(let i =1;i<=8;i++){
+    // get a random start position from array above.
     let x = xValues[Math.floor(Math.random() * xValues.length)];
-    let y = yValues[Math.floor(Math.random() * yValues.length)]
-    allEnemies[i] = new Enemy(x, y);
+    let y = yValues[Math.floor(Math.random() * yValues.length)];
+    let speed;
+    // each has a diffirent speed. 1st row is slowest, last row the fastest.
+    if(y=== 60){
+        speed = 250;
+    } else if(y === 140) {
+        speed = 200;
+    } else {
+        speed = 150;
+    }
+    allEnemies[i] = new Enemy(x, y, speed);
 }
+// Place the player object in a variable called player
 let player = new Player(200,400);
 
 
