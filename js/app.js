@@ -1,7 +1,20 @@
 // Enemies our player must avoid
 let level = 1;
 let part = 1;
+// start with 5 lives.
+let hearts = 5;
 
+function createHearts(){
+    // clean the score area first.
+    document.getElementById("score").innerHTML = "";
+    // then add the number of hearts (lives) to screen.
+    for(let i = 1;i<=hearts;i++){
+        console.log(hearts);
+        document.getElementById("score").innerHTML += "<img src='images/Heart.png'>";
+    }
+}
+createHearts();
+// enemy class
 let Enemy = function(startX, startY, speed) {
     this.sprite = 'images/enemy-bug.png';
     this.x = startX;
@@ -16,6 +29,24 @@ Enemy.prototype.update = function(dt) {
     // if enemy gets to the end of the canvas reset its position.
     if(this.x > 600) {
         this.reset();
+    }
+    this.checkCollision();
+};
+
+Enemy.prototype.checkCollision = function() {
+    // collision detection
+    if( player.x >= this.x -70 && player.x <=this.x + 70 ){
+        if( player.y >= this.y -50 && player.y <=  this.y + 50 ){
+            // set player to start position and lower lives by one.
+            player.reset();
+            hearts--;
+            // if lives are zero, the game is over.
+            if(hearts === 0){
+                //GAME OVERRR
+            } else {
+                createHearts();
+            }
+        }
     }
 };
 
@@ -43,10 +74,12 @@ Player.prototype.update = function() {
         if(part === 3) {
             part = 1;
             level++;
+            // reset enemies and create diffirent new ones.
             createEnemies();
         } else {
             part++;
         }
+        // reset player to start position.
         this.reset();
     }
 
@@ -72,6 +105,8 @@ Player.prototype.handleInput = function(key){
    }
 };
 
+
+
 // create enemies array
 let allEnemies = [];
 // some default start positions
@@ -86,8 +121,8 @@ function createEnemies() {
         let x = xValues[Math.floor(Math.random() * xValues.length)];
         let y = yValues[Math.floor(Math.random() * yValues.length)];
         let speed;
-        // each has a diffirent speed. 1st row is slowest, last row the fastest.
-        if(y=== 60){
+        // each row has a diffirent speed. 1st row is slowest, last row the fastest.
+        if(y === 60){
             speed = (20*level)+250;
         } else if(y === 140) {
             speed = (20*level)+200;
@@ -98,7 +133,7 @@ function createEnemies() {
         allEnemies[i] = new Enemy(x, y, speed);
     }
 }
-console.log(allEnemies);
+
 // Place the player object in a variable called player
 let player = new Player(200,400);
 

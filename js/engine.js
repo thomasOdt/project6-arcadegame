@@ -25,7 +25,7 @@ var Engine = (function(global) {
         lastTime;
 
     canvas.width = 505;
-    canvas.height = 606;
+    canvas.height = 605;
     doc.body.appendChild(canvas);
 
 
@@ -153,7 +153,6 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
         player.render();
     }
 
@@ -174,7 +173,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Star.png'
     ]);
     Resources.onReady(init);
 
