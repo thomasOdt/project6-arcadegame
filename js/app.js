@@ -79,10 +79,12 @@ Player.prototype.update = function() {
             $("#level").effect("pulsate");
             part = 1;
             level++;
-            // add a extra live on leveling.
-            // if(hearts < 5){
-            //     document.getElementById("score").innerHTML += "<img src='images/Heart.png'>";
-            // }
+            //add a extra live on leveling.
+            if(hearts < 5){
+                // add heart with jQuery so the effect can take place.
+                $("#score").append("<img src='images/Heart.png'>").effect("pulsate");
+                hearts++;
+            }
             // reset enemies and create diffirent new ones.
             createEnemies();
         } else {
