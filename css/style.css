@@ -6,13 +6,12 @@ body {
 h1 {
     margin:0;
     font-family: 'Lobster', cursive;
-    color:white;
+    color:#7d3114;
     font-size:58px;
     font-weight: normal;
 }
 h2 {
     font-family: "Book Antiqua";
-    color:white;
 }
 #score {
     margin:0 auto -40px auto;

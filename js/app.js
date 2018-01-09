@@ -2,7 +2,7 @@
 let level = 1;
 let part = 1;
 // start with 5 lives.
-let hearts = 5;
+let hearts = 3;
 let stop = false;
 
 function createHearts(){
@@ -80,7 +80,7 @@ Player.prototype.update = function() {
             part = 1;
             level++;
             //add a extra live on leveling.
-            if(hearts < 5){
+            if(hearts < 3){
                 // add heart with jQuery so the effect can take place.
                 $("#score").append("<img src='images/Heart.png'>").effect("pulsate");
                 hearts++;
