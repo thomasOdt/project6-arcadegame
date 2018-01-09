@@ -3,17 +3,18 @@ let level = 1;
 let part = 1;
 // start with 5 lives.
 let hearts = 5;
+let stop = false;
 
 function createHearts(){
     // clean the score area first.
     document.getElementById("score").innerHTML = "";
     // then add the number of hearts (lives) to screen.
     for(let i = 1;i<=hearts;i++){
-        console.log(hearts);
         document.getElementById("score").innerHTML += "<img src='images/Heart.png'>";
     }
 }
 createHearts();
+
 // enemy class
 let Enemy = function(startX, startY, speed) {
     this.sprite = 'images/enemy-bug.png';
@@ -40,11 +41,12 @@ Enemy.prototype.checkCollision = function() {
             // set player to start position and lower lives by one.
             player.reset();
             hearts--;
+            // exploding and remove heats with jQuery UI.
+            $("#score img").first().effect("explode").remove();
             // if lives are zero, the game is over.
             if(hearts === 0){
                 //GAME OVERRR
-            } else {
-                createHearts();
+                stop=true;
             }
         }
     }
@@ -72,11 +74,19 @@ Player.prototype.update = function() {
     document.getElementById("part").innerHTML = part;
     if(this.y === -50) {
         if(part === 3) {
+            // some jQuery UI effects if score updates
+            $("#part").effect("pulsate");
+            $("#level").effect("pulsate");
             part = 1;
             level++;
+            // add a extra live on leveling.
+            // if(hearts < 5){
+            //     document.getElementById("score").innerHTML += "<img src='images/Heart.png'>";
+            // }
             // reset enemies and create diffirent new ones.
             createEnemies();
         } else {
+            $("#part").effect("pulsate");
             part++;
         }
         // reset player to start position.

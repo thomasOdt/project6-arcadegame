@@ -56,7 +56,17 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+
+        // build a stop variable in app.js so the animations will stop and a game over screen can be showed
+        if(stop) {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+            ctx.fillRect(50,100,400,450);
+            ctx.font = '48px Lobster';
+            ctx.fillStyle = 'white';
+            ctx.fillText('GAME OVER',100,150);
+        } else {
+            win.requestAnimationFrame(main);
+        }
     }
 
     /* This function does some initial setup that should only occur once,
@@ -80,7 +90,6 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
