@@ -1,6 +1,15 @@
-frontend-nanodegree-arcade-game
-===============================
+# Classic Frogger Game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+# Instructions
+The aim of the game is to bring your character to the see. There will be enemies on the road to catch you. Try to avoid these.
+You're save at the grass.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## How to Play
+Open the index.html file. The game starts automatically. To move your player, use your arrow keys on your keyboard.
+
+## Gameplay
+You start with 3 lives. Every time a enemies catches you, a live will be gone. If all your lives are gone, the game is over.
+There are 5 levels. Each level contains 3 parts. If you successfully passes a level, you'll get an extra live. But only is your lives are below 3. You can collect stars at each part. Try to catch as many as possible!
+
+## WIN
+If you can make it to the beach 15 times (5 levels * 3 parts), a game summery will be shown.
