@@ -1,12 +1,16 @@
 body {
     text-align: center;
-    background:url("../images/background.jpg") no-repeat center;
+    background:url("../images/background.jpg") no-repeat;
     background-size:cover;
+}
+#container {
+    margin: 0 auto;
+    width:505px;
 }
 h1 {
     margin:0;
     font-family: 'Lobster', cursive;
-    color:#7d3114;
+    color:#fbd840;
     font-size:58px;
     font-weight: normal;
 }
@@ -14,7 +18,32 @@ h2 {
     font-family: "Book Antiqua";
 }
 #score {
-    margin:0 auto -40px auto;
-    width:505px;
+    margin:0 ;
+    width:305px;
     text-align: right;
+    float:right;
+    height:30px;
 }
+
+#stars {
+    width:200px;
+    float:left;
+    margin:0;
+    text-align: left;
+    height:30px;
+}
+@keyframes rotate {
+    from {transform:rotateY(0deg)}
+    to {transform: rotateY(360deg)}
+}
+#stars img {
+    animation: rotate 3s linear infinite;
+}
+#starsTotal {
+    font-size:40px;
+    font-family: 'Lobster', cursive;
+}
+canvas {
+    margin-top:-30px;
+}
+

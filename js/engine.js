@@ -57,13 +57,22 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
 
-        // build a stop variable in app.js so the animations will stop and a game over screen can be showed
+        // build a stop variable in app.js so the animations will stop and a game over or win screen can be showed
         if(stop) {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
-            ctx.fillRect(50,100,400,450);
-            ctx.font = '48px Lobster';
-            ctx.fillStyle = 'white';
-            ctx.fillText('GAME OVER',100,150);
+            if(won) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+                ctx.fillRect(50,100,400,450);
+                ctx.font = '48px Lobster';
+                ctx.fillStyle = 'gold';
+                ctx.fillText('YOU WINNNN',100,150);
+                ctx.fillText(hearts,150,200);
+            }else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+                ctx.fillRect(50, 100, 400, 450);
+                ctx.font = '48px Lobster';
+                ctx.fillStyle = 'white';
+                ctx.fillText('GAME OVER', 100, 150);
+            }
         } else {
             win.requestAnimationFrame(main);
         }
@@ -104,6 +113,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        star.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -163,6 +173,7 @@ var Engine = (function(global) {
             enemy.render();
         });
         player.render();
+        star.render();
     }
 
     /* This function does nothing but it could have been a good place to

@@ -1,19 +1,16 @@
-// Enemies our player must avoid
 let level = 1;
 let part = 1;
-// start with 5 lives.
+// start with 3 lives.
 let hearts = 3;
 let stop = false;
+let won = false;
+let collectedStars = 0;
 
-function createHearts(){
-    // clean the score area first.
-    document.getElementById("score").innerHTML = "";
-    // then add the number of hearts (lives) to screen.
-    for(let i = 1;i<=hearts;i++){
-        document.getElementById("score").innerHTML += "<img src='images/Heart.png'>";
-    }
+
+// add hearts to screen.
+for(let i = 1;i<=hearts;i++){
+    document.getElementById("score").innerHTML += "<img src='images/Heart.png'>";
 }
-createHearts();
 
 // enemy class
 let Enemy = function(startX, startY, speed) {
@@ -73,12 +70,22 @@ Player.prototype.update = function() {
     document.getElementById("level").innerHTML = level;
     document.getElementById("part").innerHTML = part;
     if(this.y === -50) {
+        if(star.x === 600){
+            // star is "removed" == fetched. create new star.
+            star.newStar();
+        }
         if(part === 3) {
+            if(level === 5) {
+                won = true;
+                stop = true;
+                //setTimeout(youWin, 1000);
+            }
             // some jQuery UI effects if score updates
             $("#part").effect("pulsate");
             $("#level").effect("pulsate");
             part = 1;
             level++;
+
             //add a extra live on leveling.
             if(hearts < 3){
                 // add heart with jQuery so the effect can take place.
@@ -117,11 +124,48 @@ Player.prototype.handleInput = function(key){
    }
 };
 
+//Star class.
+let Star = function(startX, startY) {
+    this.sprite = 'images/Star.png';
+    this.x = startX;
+    this.y = startY;
+
+};
+
+Star.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Star.prototype.update = function() {
+    // collision detection for star
+    if( player.x >= this.x -20 && player.x <=this.x + 20 ){
+        if( player.y >= this.y -50 && player.y <=  this.y + 50 ){
+            star.remove();
+            collectedStars++;
+            document.getElementById("starsTotal").innerHTML = collectedStars;
+        }
+    }
+};
+
+// all possible star positions
+const starXpos = [0,101,202,303,404];
+const starYpos = [70,150,235];
+
+Star.prototype.remove = function() {
+    this.x=600;
+}
+
+Star.prototype.newStar = function() {
+    star = new Star(starXpos[Math.floor(Math.random() * starXpos.length)],starYpos[Math.floor(Math.random() * starYpos.length)]);
+}
+
+let star = new Star(starXpos[Math.floor(Math.random() * starXpos.length)],starYpos[Math.floor(Math.random() * starYpos.length)]);
 
 
 // create enemies array
 let allEnemies = [];
-// some default start positions
+// some default start positions for enemies
+
 const xValues = [-100,-225,-350,-450,-575,-675];
 const yValues = [60, 140, 220];
 createEnemies();
