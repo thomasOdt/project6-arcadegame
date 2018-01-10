@@ -2,14 +2,14 @@ let level = 1;
 let part = 1;
 // start with 3 lives.
 let hearts = 3;
+// variables to stop the game when out of lives or when won.
 let stop = false;
 let won = false;
 let collectedStars = 0;
 
-
 // add hearts to screen.
 for(let i = 1;i<=hearts;i++){
-    document.getElementById("score").innerHTML += "<img src='images/Heart.png'>";
+    document.getElementById("lives").innerHTML += "<img src='images/Heart.png'>";
 }
 
 // enemy class
@@ -35,14 +35,13 @@ Enemy.prototype.checkCollision = function() {
     // collision detection
     if( player.x >= this.x -70 && player.x <=this.x + 70 ){
         if( player.y >= this.y -50 && player.y <=  this.y + 50 ){
-            // set player to start position and lower lives by one.
+            // When hit, set player to start position and lower lives by one.
             player.reset();
             hearts--;
             // exploding and remove heats with jQuery UI.
-            $("#score img").first().effect("explode").remove();
+            $("#lives").find("img").first().effect("explode").remove();
             // if lives are zero, the game is over.
             if(hearts === 0){
-                //GAME OVERRR
                 stop=true;
             }
         }
@@ -74,13 +73,13 @@ Player.prototype.update = function() {
             // star is "removed" == fetched. create new star.
             star.newStar();
         }
+        // check if part === 3, then level up.
         if(part === 3) {
             if(level === 5) {
                 won = true;
                 stop = true;
-                //setTimeout(youWin, 1000);
             }
-            // some jQuery UI effects if score updates
+            // some jQuery UI effects if lives updates
             $("#part").effect("pulsate");
             $("#level").effect("pulsate");
             part = 1;
@@ -89,7 +88,7 @@ Player.prototype.update = function() {
             //add a extra live on leveling.
             if(hearts < 3){
                 // add heart with jQuery so the effect can take place.
-                $("#score").append("<img src='images/Heart.png'>").effect("pulsate");
+                $("#lives").append("<img src='images/Heart.png'>").effect("pulsate");
                 hearts++;
             }
             // reset enemies and create diffirent new ones.
@@ -110,7 +109,7 @@ Player.prototype.render = function() {
 Player.prototype.reset = function() {
     this.x = 200;
     this.y = 400;
-}
+};
 Player.prototype.handleInput = function(key){
    //player movement and check boundaries
     if(key === 'left' && this.x > 0){
@@ -152,20 +151,22 @@ const starXpos = [0,101,202,303,404];
 const starYpos = [70,150,235];
 
 Star.prototype.remove = function() {
+    // place star outside canvas to "remove" it.
     this.x=600;
-}
+};
 
 Star.prototype.newStar = function() {
     star = new Star(starXpos[Math.floor(Math.random() * starXpos.length)],starYpos[Math.floor(Math.random() * starYpos.length)]);
-}
+};
 
+// add a star to the game.
 let star = new Star(starXpos[Math.floor(Math.random() * starXpos.length)],starYpos[Math.floor(Math.random() * starYpos.length)]);
 
 
 // create enemies array
 let allEnemies = [];
-// some default start positions for enemies
 
+// some default start positions for enemies
 const xValues = [-100,-225,-350,-450,-575,-675];
 const yValues = [60, 140, 220];
 createEnemies();
@@ -197,7 +198,7 @@ let player = new Player(200,400);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+    const allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',

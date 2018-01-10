@@ -13,16 +13,16 @@
  * writing app.js a little simpler to work with.
  */
 
-var Engine = (function(global) {
+const Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
-    var doc = global.document,
+    const doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
-        ctx = canvas.getContext('2d'),
-        lastTime;
+        ctx = canvas.getContext('2d');
+    let lastTime;
 
     canvas.width = 505;
     canvas.height = 605;
@@ -39,7 +39,7 @@ var Engine = (function(global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
-        var now = Date.now(),
+        const now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
@@ -58,21 +58,34 @@ var Engine = (function(global) {
          */
 
         // build a stop variable in app.js so the animations will stop and a game over or win screen can be showed
-        if(stop) {
-            if(won) {
+        if (stop) {
+            if (won) {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
-                ctx.fillRect(50,100,400,450);
-                ctx.font = '48px Lobster';
-                ctx.fillStyle = 'gold';
-                ctx.fillText('YOU WINNNN',100,150);
-                ctx.fillText(hearts,150,200);
-            }else {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
-                ctx.fillRect(50, 100, 400, 450);
-                ctx.font = '48px Lobster';
+                ctx.fillRect(10, 60, 485, 515);
+                ctx.drawImage(Resources.get('images/youWin.png'), 40, 90);
+                ctx.drawImage(Resources.get('images/Star.png'), 40, 190);
+                ctx.font = '50px Verdana';
                 ctx.fillStyle = 'white';
-                ctx.fillText('GAME OVER', 100, 150);
+                ctx.fillText(collectedStars, 150, 310);
+                for (let i = 1; i <= hearts; i++) {
+                    ctx.drawImage(Resources.get('images/HeartScore.png'), (i * 55), 350);
+                }
+                $("#stars, #lives").css("display", "none");
+                ctx.font = '15px Verdana';
+                ctx.fillStyle = 'White';
+                ctx.fillText('Click here to start again', 160, 550);
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+                ctx.fillRect(10, 60, 485, 515);
+                ctx.drawImage(Resources.get('images/gameover.png'), 0, 50);
+                ctx.font = '25px Verdana';
+                ctx.fillStyle = 'White';
+                ctx.fillText('Click here to try again', 110, 450);
             }
+            // make canvas clickable so the page reloads and the game starts over.
+            $("canvas").css("cursor", "pointer").on("click", function () {
+                location.reload();
+            });
         } else {
             win.requestAnimationFrame(main);
         }
@@ -109,7 +122,7 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -126,7 +139,7 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
-        var rowImages = [
+        const rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
@@ -135,11 +148,11 @@ var Engine = (function(global) {
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
             numRows = 6,
-            numCols = 5,
-            row, col;
-        
+            numCols = 5;
+        let row, col;
+
         // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -169,7 +182,7 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.render();
         });
         player.render();
@@ -194,7 +207,10 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/Star.png'
+        'images/Star.png',
+        'images/gameover.png',
+        'images/HeartScore.png',
+        'images/youWin.png'
     ]);
     Resources.onReady(init);
 
